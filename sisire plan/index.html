@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISIRE | High-End Minimalist Fashion</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Bodoni Moda (Serif) and Inter (Sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Bodoni Moda"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        black: '#000000',
+                        white: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hide scrollbar for the cart drawer but allow scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-black bg-white overflow-x-hidden">
+
+    <!-- Sticky Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-transparent text-white border-b border-transparent py-4 px-6 md:px-12 flex justify-between items-center">
+        <!-- Left: Links -->
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-medium">
+            <a href="#shop" class="hover:opacity-70 transition-opacity">Shop</a>
+            <a href="#shop" class="hover:opacity-70 transition-opacity">Collections</a>
+            <a href="#about" class="hover:opacity-70 transition-opacity">About</a>
+        </div>
+        
+        <!-- Center: Logo -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 text-3xl md:text-4xl font-serif tracking-widest cursor-pointer" onclick="window.scrollTo(0,0)">
+            SISIRE
+        </div>
+        
+        <!-- Right: Icons -->
+        <div class="flex gap-6 items-center">
+            <!-- Search Icon -->
+            <button class="hover:opacity-70 transition-opacity">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35m1.9-5.4a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"></path></svg>
+            </button>
+            <!-- Profile Icon -->
+            <button class="hover:opacity-70 transition-opacity" onclick="handleProfileClick()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
+            </button>
+            <!-- Cart Icon -->
+            <button class="relative hover:opacity-70 transition-opacity" onclick="openCart()">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path></svg>
+                <!-- Notification Dot -->
+                <span id="cart-dot" class="hidden absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Full-Screen Hero Section -->
+    <header class="relative h-screen flex items-center justify-center bg-black bg-cover bg-center" style="background-image: url('bg-image.jpg');">
+        <!-- Fallback Dark Overlay for text legibility in case bg-image isn't perfectly dark -->
+        <div class="absolute inset-0 bg-black/40"></div>
+        
+        <div class="relative z-10 text-center text-white mt-16 px-4">
+            <h1 class="text-7xl md:text-9xl font-serif tracking-widest mb-6">SISIRE</h1>
+            <p class="text-sm md:text-lg font-light tracking-[0.3em] uppercase mb-10">The New Standard of Minimal</p>
+            <a href="#shop" class="inline-block px-10 py-4 border border-white uppercase text-xs tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                Explore Collection
+            </a>
+        </div>
+    </header>
+
+    <!-- Collection Grid (New Arrivals) -->
+    <section id="shop" class="py-24 px-6 md:px-12 bg-white text-black max-w-screen-2xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-serif text-center mb-16">New Arrivals</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Product 1 -->
+            <div class="group cursor-pointer" onclick="openQuickView({id: 1, name: 'Structured Wool Coat', price: 450, img: 'https://images.unsplash.com/photo-1549841584-d5f06d8bc882?q=80&w=800&auto=format&fit=crop'})">
+                <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 mb-4 border border-transparent group-hover:border-black/10 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1549841584-d5f06d8bc882?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" alt="Main Image">
+                    <img src="https://images.unsplash.com/photo-1515347619362-e9d6d396a60d?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100" alt="Hover Image">
+                </div>
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="font-serif text-lg">Structured Wool Coat</h3>
+                    <p class="font-light text-sm">$450</p>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="group cursor-pointer" onclick="openQuickView({id: 2, name: 'Silk Midi Dress', price: 320, img: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800&auto=format&fit=crop'})">
+                <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 mb-4 border border-transparent group-hover:border-black/10 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" alt="Main Image">
+                    <img src="https://images.unsplash.com/photo-1550639525-c97d455acf70?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100" alt="Hover Image">
+                </div>
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="font-serif text-lg">Silk Midi Dress</h3>
+                    <p class="font-light text-sm">$320</p>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="group cursor-pointer" onclick="openQuickView({id: 3, name: 'Tailored Blazer', price: 380, img: 'https://images.unsplash.com/photo-1591369822096-114cb17a56c5?q=80&w=800&auto=format&fit=crop'})">
+                <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 mb-4 border border-transparent group-hover:border-black/10 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1591369822096-114cb17a56c5?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" alt="Main Image">
+                    <img src="https://images.unsplash.com/photo-1604072366595-e75de92b5be4?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100" alt="Hover Image">
+                </div>
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="font-serif text-lg">Tailored Blazer</h3>
+                    <p class="font-light text-sm">$380</p>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="group cursor-pointer" onclick="openQuickView({id: 4, name: 'Wide-Leg Trousers', price: 210, img: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop'})">
+                <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 mb-4 border border-transparent group-hover:border-black/10 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0" alt="Main Image">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100" alt="Hover Image">
+                </div>
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="font-serif text-lg">Wide-Leg Trousers</h3>
+                    <p class="font-light text-sm">$210</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story Section -->
+    <section id="about" class="py-32 px-6 bg-black text-white text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-serif mb-10 tracking-wide">The Ethos of SISIRE</h2>
+            <p class="text-base md:text-lg font-light leading-relaxed tracking-wider opacity-90 mb-8">
+                Crafted in the pursuit of absolute minimalism. We believe in the absence of noise to highlight the presence of quality. Every thread, stitch, and silhouette is meticulously designed to outlast passing trends.
+            </p>
+            <p class="text-base md:text-lg font-light leading-relaxed tracking-wider opacity-90">
+                SISIRE is not just clothing; it is a canvas for your individuality.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer & Newsletter -->
+    <footer class="py-24 px-6 bg-white border-t border-black text-center">
+        <div class="max-w-xl mx-auto">
+            <h3 class="text-2xl font-serif mb-4">Join the List</h3>
+            <p class="mb-10 font-light text-sm tracking-wide opacity-70">Receive early access to new collections, exclusive editorials, and intimate brand news.</p>
+            
+            <form class="flex flex-col sm:flex-row justify-center max-w-md mx-auto mb-20 gap-4 sm:gap-0" onsubmit="event.preventDefault(); alert('Subscribed to SISIRE successfully.');">
+                <input type="email" placeholder="Email Address" class="w-full sm:flex-1 border-b border-black py-3 px-4 focus:outline-none font-light bg-transparent rounded-none" required>
+                <button type="submit" class="bg-black text-white px-8 py-3 uppercase text-xs tracking-widest hover:bg-white hover:text-black border border-black transition-colors duration-300">Subscribe</button>
+            </form>
+            
+            <p class="text-xs font-light uppercase tracking-[0.2em] opacity-50">&copy; 2026 SISIRE. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- PRODUCT QUICK-VIEW MODAL -->
+    <div id="quick-view-overlay" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity" onclick="closeQuickView(event)">
+        <!-- Modal Content -->
+        <div class="bg-white w-full max-w-4xl max-h-[90vh] flex flex-col md:flex-row overflow-hidden relative shadow-2xl" onclick="event.stopPropagation()">
+            
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-white text-black md:text-black hover:opacity-50 transition-opacity rounded-full shadow-md md:shadow-none md:bg-transparent">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <!-- Product Image -->
+            <div class="w-full md:w-1/2 h-64 md:h-[600px] bg-gray-100">
+                <img id="qv-img" src="" class="w-full h-full object-cover" alt="Product Quick View">
+            </div>
+            
+            <!-- Product Details -->
+            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
+                <h2 id="qv-title" class="text-3xl font-serif mb-2">Product Title</h2>
+                <p id="qv-price" class="text-xl mb-10 font-light tracking-wide">$0.00</p>
+                
+                <div class="mb-10">
+                    <span class="block text-xs uppercase tracking-[0.2em] mb-4">Select Size</span>
+                    <div class="flex gap-3">
+                        <button class="size-btn border border-black w-12 h-12 flex items-center justify-center text-sm hover:bg-black hover:text-white transition-colors duration-300 bg-black text-white">S</button>
+                        <button class="size-btn border border-black w-12 h-12 flex items-center justify-center text-sm hover:bg-black hover:text-white transition-colors duration-300">M</button>
+                        <button class="size-btn border border-black w-12 h-12 flex items-center justify-center text-sm hover:bg-black hover:text-white transition-colors duration-300">L</button>
+                        <button class="size-btn border border-black w-12 h-12 flex items-center justify-center text-sm hover:bg-black hover:text-white transition-colors duration-300">XL</button>
+                    </div>
+                </div>
+                
+                <button id="qv-add-btn" class="w-full bg-black text-white py-4 uppercase tracking-[0.2em] text-xs border border-black hover:bg-white hover:text-black transition-colors duration-300">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOPPING CART DRAWER -->
+    <!-- Drawer Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm transition-opacity" onclick="closeCart()"></div>
+    
+    <!-- Drawer Panel -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-50 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col border-l border-black/10 shadow-2xl">
+        
+        <!-- Header -->
+        <div class="p-6 border-b border-black/10 flex justify-between items-center bg-white">
+            <h2 class="text-xl font-serif tracking-widest uppercase">Cart</h2>
+            <button onclick="closeCart()" class="hover:opacity-50 transition-opacity">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <!-- Items Container -->
+        <div id="cart-items" class="flex-1 p-6 overflow-y-auto hide-scrollbar flex flex-col gap-8 bg-white">
+            <!-- Items injected by JS -->
+            <p class="text-black/50 font-light text-center mt-10 tracking-widest uppercase text-sm">Your cart is empty.</p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="p-6 border-t border-black/10 bg-white">
+            <div class="flex justify-between mb-6 font-serif text-lg tracking-wider">
+                <span>Subtotal</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button onclick="openCheckout()" class="w-full bg-black text-white py-4 uppercase tracking-[0.2em] text-xs border border-black hover:bg-white hover:text-black transition-colors duration-300">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT PAGE OVERLAY -->
+    <div id="checkout-overlay" class="fixed inset-0 bg-white z-[60] hidden overflow-y-auto transition-opacity duration-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row min-h-screen">
+            
+            <!-- Left: Payment & Shipping -->
+            <div class="w-full md:w-3/5 p-8 md:p-16 flex flex-col justify-center bg-white relative">
+                <button onclick="closeCheckout()" class="absolute top-8 left-8 md:top-16 md:left-16 flex items-center gap-2 text-sm uppercase tracking-widest hover:opacity-50 transition-opacity">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg>
+                    Return to Cart
+                </button>
+                
+                <div class="mt-16 md:mt-0 max-w-lg mx-auto w-full">
+                    <h2 class="text-3xl font-serif mb-12 tracking-widest uppercase">Checkout</h2>
+                    
+                    <form id="checkout-form" onsubmit="event.preventDefault(); alert('Order placed successfully!'); cart = []; updateCart(); closeCheckout();" class="flex flex-col gap-10">
+                        
+                        <!-- Delivery Method -->
+                        <div>
+                            <h3 class="text-sm uppercase tracking-widest border-b border-black/10 pb-3 mb-6">Delivery Method</h3>
+                            
+                            <div class="flex gap-6 mb-8">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="delivery_method" value="delivery" checked onchange="toggleDeliveryMethod()" class="accent-black w-4 h-4">
+                                    <span class="text-sm font-light tracking-wide">Ship to Address</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="delivery_method" value="pickup" onchange="toggleDeliveryMethod()" class="accent-black w-4 h-4">
+                                    <span class="text-sm font-light tracking-wide">Store Pickup</span>
+                                </label>
+                            </div>
+
+                            <!-- Delivery Fields -->
+                            <div id="delivery-fields" class="grid grid-cols-2 gap-6 transition-all duration-300">
+                                <input type="text" id="ship-fname" placeholder="First Name" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required>
+                                <input type="text" id="ship-lname" placeholder="Last Name" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required>
+                                <input type="text" id="ship-addr" placeholder="Address" class="col-span-2 border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" title="Enter a valid address" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s,.-]/g, '')" required>
+                                <input type="text" id="ship-city" placeholder="City" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')" required>
+                                <input type="text" id="ship-zip" placeholder="Postal Code" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" title="Enter a valid postal code" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s-]/g, '')" required>
+                            </div>
+
+                            <!-- Pickup Fields -->
+                            <div id="pickup-fields" class="hidden grid grid-cols-2 gap-6 transition-all duration-300">
+                                <select id="pickup-store" class="col-span-2 border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm bg-transparent cursor-pointer rounded-none">
+                                    <option value="" disabled selected>Select a Store Location</option>
+                                    <option value="ny">New York Flagship - 5th Ave</option>
+                                    <option value="la">Los Angeles - Rodeo Drive</option>
+                                    <option value="ldn">London - Bond Street</option>
+                                </select>
+                                <input type="text" id="pickup-fname" placeholder="Pickup First Name" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
+                                <input type="text" id="pickup-lname" placeholder="Pickup Last Name" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
+                            </div>
+                        </div>
+                        
+                        <!-- Payment -->
+                        <div>
+                            <h3 class="text-sm uppercase tracking-widest border-b border-black/10 pb-3 mb-6">Payment Method</h3>
+                            
+                            <!-- Saved Payment (Visible if logged in) -->
+                            <div id="checkout-saved-payment" class="hidden mb-6 p-5 border border-black/10 bg-gray-50 flex items-center justify-between cursor-pointer hover:border-black transition-colors">
+                                <div class="flex items-center gap-4 text-sm font-light">
+                                    <div class="w-10 h-6 bg-black text-white flex items-center justify-center text-[10px] font-bold rounded-sm">VISA</div>
+                                    <span class="tracking-widest">•••• •••• •••• 4242</span>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest text-black/50">Stored</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-6">
+                                <input type="text" placeholder="Card Number" class="col-span-2 border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="\d{13,19}" maxlength="19" title="Enter a valid card number (digits only)" oninput="this.value = this.value.replace(/\D/g, '')" required>
+                                <input type="text" placeholder="MM/YY" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" maxlength="5" title="Format: MM/YY" oninput="formatExpiryDate(event)" required>
+                                <input type="text" placeholder="CVC" class="border-b border-black/30 py-2 focus:outline-none focus:border-black font-light text-sm" pattern="\d{3,4}" maxlength="4" title="3 or 4 digit security code" oninput="this.value = this.value.replace(/\D/g, '')" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="bg-black text-white py-5 mt-4 uppercase tracking-[0.2em] text-xs border border-black hover:bg-white hover:text-black transition-colors duration-300 w-full">
+                            Place Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right: Order Summary -->
+            <div class="w-full md:w-2/5 bg-gray-50 p-8 md:p-16 border-l border-black/10 flex flex-col">
+                <h3 class="text-xl font-serif mb-8 tracking-widest uppercase">Order Summary</h3>
+                
+                <div id="checkout-items" class="flex-1 overflow-y-auto hide-scrollbar flex flex-col gap-6 mb-8">
+                    <!-- Items injected by JS -->
+                </div>
+                
+                <div class="border-t border-black/10 pt-6">
+                    <div class="flex justify-between font-serif text-2xl tracking-wider">
+                        <span>Total</span>
+                        <span id="checkout-total">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USER AUTH MODAL -->
+    <div id="auth-overlay" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity" onclick="closeAuthModal(event)">
+        <div class="bg-white w-full max-w-md p-10 relative shadow-2xl" onclick="event.stopPropagation()">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-black hover:opacity-50 transition-opacity">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h2 id="auth-title" class="text-3xl font-serif mb-8 text-center tracking-widest uppercase">Sign In</h2>
+            
+            <form id="auth-form" onsubmit="event.preventDefault(); loginUser();" class="flex flex-col gap-6">
+                <input type="email" placeholder="Email Address" class="border-b border-black/30 py-2 focus:outline-none focus:border-black transition-colors font-light text-sm" required>
+                <input type="password" placeholder="Password" class="border-b border-black/30 py-2 focus:outline-none focus:border-black transition-colors font-light text-sm" required>
+                <button type="submit" id="auth-submit-btn" class="bg-black text-white py-4 mt-4 uppercase tracking-[0.2em] text-xs border border-black hover:bg-white hover:text-black transition-colors duration-300">
+                    Login
+                </button>
+            </form>
+            
+            <p id="auth-toggle-text" class="text-center mt-8 text-xs font-light tracking-wide text-black/60 cursor-pointer hover:text-black transition-colors" onclick="toggleAuthMode()">
+                Don't have an account? Create one.
+            </p>
+        </div>
+    </div>
+
+    <!-- USER PROFILE DRAWER -->
+    <div id="profile-overlay" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm transition-opacity" onclick="closeProfileDrawer()"></div>
+    
+    <div id="profile-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-50 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col border-l border-black/10 shadow-2xl">
+        <!-- Header -->
+        <div class="p-6 border-b border-black/10 flex justify-between items-center bg-white">
+            <h2 class="text-xl font-serif tracking-widest uppercase">My Account</h2>
+            <button onclick="closeProfileDrawer()" class="hover:opacity-50 transition-opacity">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-1 p-6 overflow-y-auto hide-scrollbar flex flex-col gap-8 bg-white">
+            <div class="text-center mb-2">
+                <h3 class="text-2xl font-serif mb-2">Welcome Back</h3>
+                <p class="text-xs font-light text-black/60 tracking-widest uppercase">Member since 2026</p>
+            </div>
+            
+            <!-- Stored Preferences -->
+            <div class="border border-black/10 p-5 bg-gray-50/50">
+                <h4 class="font-serif mb-4 text-lg">Style Profile</h4>
+                <p class="text-sm font-light mb-2"><span class="text-black/50 w-24 inline-block">Fitted Size:</span> Medium (M)</p>
+                <p class="text-sm font-light mb-4"><span class="text-black/50 w-24 inline-block">Palette:</span> Monochrome</p>
+                <button class="text-xs uppercase tracking-widest border-b border-black pb-1 hover:opacity-60 transition-opacity">Edit Preferences</button>
+            </div>
+            
+            <!-- Saved Payment -->
+            <div class="border border-black/10 p-5 bg-gray-50/50">
+                <h4 class="font-serif mb-4 text-lg">Payment Methods</h4>
+                <div class="flex items-center gap-4 text-sm font-light">
+                    <div class="w-10 h-6 bg-black text-white flex items-center justify-center text-[10px] font-bold rounded-sm">VISA</div>
+                    <span class="tracking-widest">•••• •••• •••• 4242</span>
+                </div>
+            </div>
+            
+            <!-- Recommendations based on preferences -->
+            <div>
+                <h4 class="font-serif mb-5 text-lg">Suggested For You</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="cursor-pointer group" onclick="closeProfileDrawer(); openQuickView({id: 3, name: 'Tailored Blazer', price: 380, img: 'https://images.unsplash.com/photo-1591369822096-114cb17a56c5?q=80&w=800&auto=format&fit=crop'})">
+                        <img src="https://images.unsplash.com/photo-1591369822096-114cb17a56c5?q=80&w=400&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover mb-3 bg-gray-100 group-hover:opacity-80 transition-opacity">
+                        <p class="text-xs font-serif truncate">Tailored Blazer</p>
+                        <p class="text-xs font-light mt-1 text-black/60">$380</p>
+                    </div>
+                    <div class="cursor-pointer group" onclick="closeProfileDrawer(); openQuickView({id: 2, name: 'Silk Midi Dress', price: 320, img: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=800&auto=format&fit=crop'})">
+                        <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=400&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover mb-3 bg-gray-100 group-hover:opacity-80 transition-opacity">
+                        <p class="text-xs font-serif truncate">Silk Midi Dress</p>
+                        <p class="text-xs font-light mt-1 text-black/60">$320</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="p-6 border-t border-black/10 bg-white">
+            <button onclick="logoutUser()" class="w-full bg-white text-black py-4 uppercase tracking-[0.2em] text-xs border border-black hover:bg-black hover:text-white transition-colors duration-300">
+                Sign Out
+            </button>
+        </div>
+    </div>
+
+    <!-- Javascript Interactivity -->
+    <script>
+        // --- State Management ---
+        let cart = [];
+        let currentProduct = null;
+        let selectedSize = 'S';
+        let isLoggedIn = false;
+        let isLoginMode = true;
+
+        // --- Navigation Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 80) {
+                // Scrolled state: White background, black text, slight border
+                nav.classList.remove('bg-transparent', 'text-white', 'border-transparent', 'py-4');
+                nav.classList.add('bg-white', 'text-black', 'border-black/10', 'py-3');
+            } else {
+                // Top state: Transparent, white text
+                nav.classList.add('bg-transparent', 'text-white', 'border-transparent', 'py-4');
+                nav.classList.remove('bg-white', 'text-black', 'border-black/10', 'py-3');
+            }
+        });
+
+        // --- Cart Drawer Logic ---
+        function openCart() {
+            document.getElementById('cart-overlay').classList.remove('hidden');
+            // Small timeout to allow display:block to apply before animating transform
+            setTimeout(() => {
+                document.getElementById('cart-drawer').classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeCart() {
+            document.getElementById('cart-drawer').classList.add('translate-x-full');
+            setTimeout(() => {
+                document.getElementById('cart-overlay').classList.add('hidden');
+            }, 300); // Wait for translation to finish before hiding overlay
+        }
+
+        // --- Quick View Logic ---
+        function openQuickView(product) {
+            currentProduct = product;
+            document.getElementById('qv-title').innerText = product.name;
+            document.getElementById('qv-price').innerText = `$${product.price.toFixed(2)}`;
+            document.getElementById('qv-img').src = product.img;
+            
+            // Reset size to S
+            resetSizeSelection();
+            
+            document.getElementById('quick-view-overlay').classList.remove('hidden');
+        }
+
+        function closeQuickView(e) {
+            // Prevent closing if clicking inside the modal content
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('quick-view-overlay').classList.add('hidden');
+        }
+
+        // --- Size Selection (Visuals & State) ---
+        function resetSizeSelection() {
+            selectedSize = 'S';
+            const buttons = document.querySelectorAll('.size-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText === 'S') {
+                    btn.classList.add('bg-black', 'text-white');
+                    btn.classList.remove('bg-white', 'text-black');
+                } else {
+                    btn.classList.remove('bg-black', 'text-white');
+                    btn.classList.add('bg-white', 'text-black');
+                }
+            });
+        }
+
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Reset all
+                document.querySelectorAll('.size-btn').forEach(b => {
+                    b.classList.remove('bg-black', 'text-white');
+                    b.classList.add('bg-white', 'text-black');
+                });
+                // Highlight active
+                e.target.classList.remove('bg-white', 'text-black');
+                e.target.classList.add('bg-black', 'text-white');
+                
+                selectedSize = e.target.innerText;
+            });
+        });
+
+        // --- Add To Cart & Update DOM ---
+        document.getElementById('qv-add-btn').addEventListener('click', () => {
+            if (!currentProduct) return;
+            
+            // Push item to state
+            cart.push({ ...currentProduct, size: selectedSize });
+            updateCart();
+            
+            // Transition from Modal to Cart
+            closeQuickView();
+            openCart();
+        });
+
+        function updateCart() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const dot = document.getElementById('cart-dot');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-black/50 font-light text-center mt-10 tracking-widest uppercase text-sm">Your cart is empty.</p>';
+                totalEl.innerText = '$0.00';
+                dot.classList.add('hidden');
+                return;
+            }
+
+            // Show notification dot on Nav
+            dot.classList.remove('hidden');
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                <div class="flex gap-6 items-center">
+                    <img src="${item.img}" class="w-20 h-28 object-cover border border-black/10">
+                    <div class="flex-1">
+                        <h4 class="font-serif text-lg">${item.name}</h4>
+                        <p class="text-xs uppercase tracking-widest text-black/50 mt-1 mb-2">Size: ${item.size}</p>
+                        <p class="text-sm font-light">$${item.price.toFixed(2)}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-black/40 hover:text-black transition-colors p-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // --- User Auth & Profile Logic ---
+        function handleProfileClick() {
+            if (isLoggedIn) {
+                openProfileDrawer();
+            } else {
+                openAuthModal();
+            }
+        }
+
+        function openAuthModal() {
+            document.getElementById('auth-overlay').classList.remove('hidden');
+        }
+
+        function closeAuthModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('auth-overlay').classList.add('hidden');
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('auth-title');
+            const btn = document.getElementById('auth-submit-btn');
+            const toggleText = document.getElementById('auth-toggle-text');
+            
+            if (isLoginMode) {
+                title.innerText = 'SIGN IN';
+                btn.innerText = 'Login';
+                toggleText.innerText = "Don't have an account? Create one.";
+            } else {
+                title.innerText = 'CREATE ACCOUNT';
+                btn.innerText = 'Sign Up';
+                toggleText.innerText = "Already have an account? Sign in.";
+            }
+        }
+
+        function loginUser() {
+            isLoggedIn = true;
+            closeAuthModal();
+            openProfileDrawer();
+        }
+
+        function logoutUser() {
+            isLoggedIn = false;
+            closeProfileDrawer();
+        }
+
+        function openProfileDrawer() {
+            document.getElementById('profile-overlay').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('profile-drawer').classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeProfileDrawer() {
+            document.getElementById('profile-drawer').classList.add('translate-x-full');
+            setTimeout(() => {
+                document.getElementById('profile-overlay').classList.add('hidden');
+            }, 300);
+        }
+
+        function toggleDeliveryMethod() {
+            const method = document.querySelector('input[name="delivery_method"]:checked').value;
+            const deliveryFields = document.getElementById('delivery-fields');
+            const pickupFields = document.getElementById('pickup-fields');
+            
+            const shipInputs = deliveryFields.querySelectorAll('input');
+            const pickupSelect = document.getElementById('pickup-store');
+            const pickupInputs = pickupFields.querySelectorAll('input');
+
+            if (method === 'delivery') {
+                deliveryFields.classList.remove('hidden');
+                pickupFields.classList.add('hidden');
+                
+                shipInputs.forEach(i => i.setAttribute('required', 'true'));
+                pickupSelect.removeAttribute('required');
+                pickupInputs.forEach(i => i.removeAttribute('required'));
+            } else {
+                deliveryFields.classList.add('hidden');
+                pickupFields.classList.remove('hidden');
+                
+                shipInputs.forEach(i => i.removeAttribute('required'));
+                pickupSelect.setAttribute('required', 'true');
+                pickupInputs.forEach(i => i.setAttribute('required', 'true'));
+            }
+        }
+
+        // --- Checkout Logic ---
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+            
+            closeCart();
+            document.body.classList.add('overflow-hidden');
+            document.getElementById('checkout-overlay').classList.remove('hidden');
+            
+            // Populate Order Summary
+            const container = document.getElementById('checkout-items');
+            const totalEl = document.getElementById('checkout-total');
+            let html = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                total += item.price;
+                html += `
+                <div class="flex gap-4 items-center">
+                    <img src="${item.img}" class="w-16 h-20 object-cover border border-black/10">
+                    <div class="flex-1">
+                        <h4 class="font-serif text-sm truncate">${item.name}</h4>
+                        <p class="text-[10px] uppercase tracking-widest text-black/50 mt-1">Size: ${item.size}</p>
+                        <p class="text-sm font-light mt-1">$${item.price.toFixed(2)}</p>
+                    </div>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+
+            // Toggle Saved Payment display based on Auth status
+            const savedPaymentUI = document.getElementById('checkout-saved-payment');
+            if (isLoggedIn) {
+                savedPaymentUI.classList.remove('hidden');
+            } else {
+                savedPaymentUI.classList.add('hidden');
+            }
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-overlay').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            // Ensure they return to a clean state or back to cart overlay
+            openCart();
+        }
+
+        // --- Form Formatting ---
+        function formatExpiryDate(e) {
+            let input = e.target;
+            // Allow user to use backspace without it automatically re-adding the slash
+            if (e.inputType === 'deleteContentBackward') return;
+            
+            let v = input.value.replace(/\D/g, '');
+            if (v.length >= 2) {
+                input.value = v.substring(0, 2) + '/' + v.substring(2, 4);
+            } else {
+                input.value = v;
+            }
+        }
+    </script>
+</body>
+</html>
